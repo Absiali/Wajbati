@@ -13,48 +13,38 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // تجميع الطلبات حسب الوجبة
-    let grouped = {
-        "فطور": [],
-        "غداء": [],
-        "عشاء": []
-    };
+    // تجميع الطلبات حسب الغرفة
+    let grouped = {};
 
     orders.forEach(order => {
-        grouped[order.meal].push(order.option);
+        if (!grouped[order.room]) {
+            grouped[order.room] = [];
+        }
+        grouped[order.room].push(order);
     });
 
-    // عرض الطلبات
-    Object.keys(grouped).forEach(meal => {
+    // عرض الطلبات حسب الغرفة
+    Object.keys(grouped).forEach(room => {
 
-        const mealBox = document.createElement("div");
-        mealBox.className = "order-box";
+        const roomBox = document.createElement("div");
+        roomBox.className = "order-box";
 
-        mealBox.innerHTML = `
-            <h3>🍽️ ${meal}</h3>
-            <p><strong>عدد الطلبات:</strong> ${grouped[meal].length}</p>
+        roomBox.innerHTML = `
+            <h3>🛏️ الغرفة رقم: ${room}</h3>
+            <p><strong>عدد الطلبات:</strong> ${grouped[room].length}</p>
         `;
 
-        // عرض الأصناف المطلوبة
-        grouped[meal].forEach(item => {
+        grouped[room].forEach(order => {
             const p = document.createElement("p");
-            p.textContent = "• " + item;
-            mealBox.appendChild(p);
+            p.innerHTML = `
+                • <strong>${order.patient}</strong> طلب  
+                <strong>${order.option}</strong>  
+                (${order.meal})
+            `;
+            roomBox.appendChild(p);
         });
 
-        container.appendChild(mealBox);
+        container.appendChild(roomBox);
     });
 
 });
-// مراقبة الطلبات الجديدة
-let lastCount = 0;
-
-setInterval(() => {
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-    if (orders.length > lastCount) {
-        alert("🔔 تنبيه: وصل طلب جديد للمطبخ!");
-    }
-
-    lastCount = orders.length;
-}, 1000);
