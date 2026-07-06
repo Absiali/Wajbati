@@ -2,26 +2,40 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>وجبتي - الإدارة</title>
+    <title>وجبتي - صفحة الإدارة</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/db.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/admin.js" defer></script>
 </head>
 
 <body class="admin-page">
 
-    <h2 class="page-title">لوحة الإدارة</h2>
+    <h2 class="page-title">إدارة خيارات الوجبات</h2>
 
+    <!-- قسم الفطور -->
     <div class="admin-section">
-        <h3>إضافة مريض</h3>
-        <input type="text" placeholder="اسم المريض">
-        <button>حفظ</button>
+        <h3>خيارات الفطور</h3>
+        <ul id="breakfast-list" class="admin-list"></ul>
+
+        <input type="text" id="breakfast-input" placeholder="أضف خيار جديد">
+        <button onclick="addOption('فطور')">إضافة</button>
     </div>
 
+    <!-- قسم الغداء -->
     <div class="admin-section">
-        <h3>إضافة وجبة</h3>
-        <input type="text" placeholder="اسم الوجبة">
-        <button>حفظ</button>
+        <h3>خيارات الغداء</h3>
+        <ul id="lunch-list" class="admin-list"></ul>
+
+        <input type="text" id="lunch-input" placeholder="أضف خيار جديد">
+        <button onclick="addOption('غداء')">إضافة</button>
+    </div>
+
+    <!-- قسم العشاء -->
+    <div class="admin-section">
+        <h3>خيارات العشاء</h3>
+        <ul id="dinner-list" class="admin-list"></ul>
+
+        <input type="text" id="dinner-input" placeholder="أضف خيار جديد">
+        <button onclick="addOption('عشاء')">إضافة</button>
     </div>
 
 </body>
