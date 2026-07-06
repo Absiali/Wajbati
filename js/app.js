@@ -30,7 +30,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 btn.onclick = () => {
                     alert("تم اختيار: " + option);
-                    localStorage.setItem("selectedMealOption", option);
+                    // حفظ الطلب في قائمة الطلبات
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+orders.push({ meal: meal, option: option });
+localStorage.setItem("orders", JSON.stringify(orders));
+
                 };
 
                 optionsList.appendChild(btn);
