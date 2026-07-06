@@ -2,44 +2,38 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>وجبتي - المريض</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/db.js"></script>
-    <script src="js/app.js"></script>
+    <title>اختيار الوجبات</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
-<body class="patient-page">
+<body>
 
-    <h2 class="page-title">اختيار الوجبة</h2>
+    <!-- بيانات المريض -->
+    <div class="box">
+        <h2>🧑‍⚕️ بيانات المريض</h2>
 
-    <!-- قسم خيارات الوجبات -->
-<div id="meal-options" class="meal-options" style="display:none;">
-    <h3 id="meal-title"></h3>
-    <div id="options-list"></div>
-</div>
-
-    <!-- قسم الأيقونات -->
-    <div class="meal-icons">
-        <img src="assets/meal-icons/breakfast.png" alt="فطور" class="meal-icon">
-        <img src="assets/meal-icons/lunch.png" alt="غداء" class="meal-icon">
-        <img src="assets/meal-icons/dinner-night.png" alt="عشاء" class="meal-icon">
+        <input type="text" id="patient-name" placeholder="اسم المريض">
+        <input type="number" id="room-number" placeholder="رقم الغرفة">
     </div>
 
-    <!-- بطاقات الوجبات -->
-    <div class="meal-card">
-        <h3>الفطور</h3>
-        <button class="order-btn">اطلب الآن</button>
+    <!-- اختيار الوجبة -->
+    <div class="box">
+        <h2>🍽️ اختر الوجبة</h2>
+
+        <div style="text-align:center;">
+            <img src="../img/breakfast.png" class="meal-icon" alt="فطور">
+            <img src="../img/lunch.png" class="meal-icon" alt="غداء">
+            <img src="../img/dinner.png" class="meal-icon" alt="عشاء">
+        </div>
     </div>
 
-    <div class="meal-card">
-        <h3>الغداء</h3>
-        <button class="order-btn">اطلب الآن</button>
+    <!-- عرض الأصناف -->
+    <div id="meal-options" class="meal-options" style="display:none;">
+        <h3 id="meal-title"></h3>
+        <div id="options-list"></div>
     </div>
 
-    <div class="meal-card">
-        <h3>العشاء</h3>
-        <button class="order-btn">اطلب الآن</button>
-    </div>
+    <script src="../js/app.js"></script>
 
 </body>
 </html>
