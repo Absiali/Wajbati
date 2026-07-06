@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    // تحميل خيارات الوجبات من صفحة الإدارة
     let mealOptions = JSON.parse(localStorage.getItem("mealOptions")) || {
-    "فطور": ["بيض", "فول", "مشروب", "ماء", "تفاحة", "برتقالة"],
-    "غداء": ["دجاج مشوي", "أرز", "سلطة", "ماء", "عصير"],
-    "عشاء": ["ساندويتش", "شوربة", "زبادي", "ماء", "فواكه"]
-};
+        "فطور": ["بيض", "فول", "مشروب", "ماء", "تفاحة", "برتقالة"],
+        "غداء": ["دجاج مشوي", "أرز", "سلطة", "ماء", "عصير"],
+        "عشاء": ["ساندويتش", "شوربة", "زبادي", "ماء", "فواكه"]
+    };
 
     const icons = document.querySelectorAll(".meal-icon");
     const mealOptionsDiv = document.getElementById("meal-options");
@@ -15,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         icon.addEventListener("click", () => {
             const meal = icon.alt; // فطور - غداء - عشاء
 
-            // إظهار القسم
+            // إظهار قسم الخيارات
             mealOptionsDiv.style.display = "block";
 
             // تغيير العنوان
@@ -30,11 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 btn.onclick = () => {
                     alert("تم اختيار: " + option);
-                    // حفظ الطلب في قائمة الطلبات
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
-orders.push({ meal: meal, option: option });
-localStorage.setItem("orders", JSON.stringify(orders));
 
+                    // حفظ الطلب في قائمة الطلبات
+                    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+                    orders.push({ meal: meal, option: option });
+                    localStorage.setItem("orders", JSON.stringify(orders));
                 };
 
                 optionsList.appendChild(btn);
