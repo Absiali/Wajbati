@@ -1,3 +1,6 @@
+<button onclick="logout()" class="option-btn" style="background:#b71c1c;">
+    🚪 تسجيل خروج
+</button>
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -24,3 +27,9 @@
 
 </body>
 </html>
+<script>
+    function logout() {
+        localStorage.removeItem("adminLogged");
+        window.location.href = "login.html";
+    }
+</script>
