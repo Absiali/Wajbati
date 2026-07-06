@@ -43,3 +43,32 @@ body {
     border-radius: 6px;
     font-size: 18px;
 }
+/* صندوق الخيارات */
+.meal-options {
+    margin-top: 20px;
+    padding: 15px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* أزرار الخيارات */
+.option-btn {
+    display: inline-block;
+    margin: 8px;
+    padding: 12px 22px;
+    background: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+/* تأثير عند المرور */
+.option-btn:hover {
+    background: #45a049;
+    transform: scale(1.05);
+}
