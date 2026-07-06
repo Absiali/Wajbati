@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const mealOptions = {
-        "فطور": ["بيض", "فول", "مشروب", "ماء", "تفاحة", "برتقالة"],
-        "غداء": ["دجاج مشوي", "أرز", "سلطة", "ماء", "عصير"],
-        "عشاء": ["ساندويتش", "شوربة", "زبادي", "ماء", "فواكه"]
-    };
+    let mealOptions = JSON.parse(localStorage.getItem("mealOptions")) || {
+    "فطور": ["بيض", "فول", "مشروب", "ماء", "تفاحة", "برتقالة"],
+    "غداء": ["دجاج مشوي", "أرز", "سلطة", "ماء", "عصير"],
+    "عشاء": ["ساندويتش", "شوربة", "زبادي", "ماء", "فواكه"]
+};
 
     const icons = document.querySelectorAll(".meal-icon");
     const mealOptionsDiv = document.getElementById("meal-options");
