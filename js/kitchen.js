@@ -1,27 +1,48 @@
-function loadOrders() {
+document.addEventListener("DOMContentLoaded", () => {
+
     const container = document.getElementById("orders-container");
 
-    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
     if (orders.length === 0) {
-        container.innerHTML = "<p>لا توجد طلبات حتى الآن.</p>";
+        container.innerHTML = `
+            <div class="box">
+                <h3>لا توجد طلبات حتى الآن</h3>
+            </div>
+        `;
         return;
     }
 
-    container.innerHTML = "";
+    // تجميع الطلبات حسب الوجبة
+    let grouped = {
+        "فطور": [],
+        "غداء": [],
+        "عشاء": []
+    };
 
-    orders.forEach((order, index) => {
-        const div = document.createElement("div");
-        div.className = "order-box";
+    orders.forEach(order => {
+        grouped[order.meal].push(order.option);
+    });
 
-        div.innerHTML = `
-            <h3>طلب رقم ${index + 1}</h3>
-            <p><strong>الوجبة:</strong> ${order.meal}</p>
-            <p><strong>الخيار:</strong> ${order.option}</p>
+    // عرض الطلبات
+    Object.keys(grouped).forEach(meal => {
+
+        const mealBox = document.createElement("div");
+        mealBox.className = "order-box";
+
+        mealBox.innerHTML = `
+            <h3>🍽️ ${meal}</h3>
+            <p><strong>عدد الطلبات:</strong> ${grouped[meal].length}</p>
         `;
 
-        container.appendChild(div);
-    });
-}
+        // عرض الأصناف المطلوبة
+        grouped[meal].forEach(item => {
+            const p = document.createElement("p");
+            p.textContent = "• " + item;
+            mealBox.appendChild(p);
+        });
 
-document.addEventListener("DOMContentLoaded", loadOrders);
+        container.appendChild(mealBox);
+    });
+
+});
