@@ -154,3 +154,35 @@ body {
 .admin-section button:hover {
     background: #45a049;
 }
+/* صفحة المطبخ */
+.kitchen-page {
+    background: #f7f7f7;
+    padding: 20px;
+    font-family: "Tahoma", sans-serif;
+}
+
+/* صندوق الطلبات */
+.orders-container {
+    margin-top: 20px;
+}
+
+/* كل طلب */
+.order-box {
+    background: #ffffff;
+    padding: 15px;
+    margin: 12px 0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* عنوان الطلب */
+.order-box h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+/* نصوص الطلب */
+.order-box p {
+    margin: 5px 0;
+    font-size: 16px;
+}
