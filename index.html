@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>وجبتي - الصفحة الرئيسية</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Arial', 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -175,25 +170,6 @@
             padding: 30px 20px;
             margin-top: 50px;
         }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 36px;
-            }
-
-            .nav-links {
-                gap: 10px;
-                font-size: 14px;
-            }
-
-            .btn-group {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
-        }
     </style>
 </head>
 
@@ -202,8 +178,8 @@
         <a href="index.html" class="navbar-brand">🏥 وجبتي</a>
         <ul class="nav-links">
             <li><a href="index.html" class="active">🏠 الرئيسية</a></li>
-            <li><a href="patient.html">🏃 المريض</a></li>
-            <li><a href="admin.html">👨‍⚕️ الإدارة</a></li>
+            <li><a href="pages/patient.html">🏃 المريض</a></li>
+            <li><a href="pages/admin.html">👨‍⚕️ الإدارة</a></li>
         </ul>
     </nav>
 
@@ -212,8 +188,8 @@
             <h1>🏥 مرحباً بك في وجبتي</h1>
             <p>نظام متقدم لطلب الوجبات في المستشفى</p>
             <div class="btn-group">
-                <a href="patient.html" class="btn btn-primary">طلب وجبة الآن 🍽️</a>
-                <a href="admin.html" class="btn btn-secondary">لوحة التحكم 👨‍⚕️</a>
+                <a href="pages/patient.html" class="btn btn-primary">طلب وجبة الآن 🍽️</a>
+                <a href="pages/admin.html" class="btn btn-secondary">لوحة التحكم 👨‍⚕️</a>
             </div>
         </div>
 
@@ -237,13 +213,13 @@
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon">🔒</div>
+                <div class="feature-icon">🔐</div>
                 <h3>آمن وموثوق</h3>
                 <p>بيانات آمنة وحفظ محلي للخصوصية</p>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon">📊</div>
+                <div class="feature-icon">📋</div>
                 <h3>إحصائيات شاملة</h3>
                 <p>تتبع جميع الطلبات والإحصائيات</p>
             </div>
@@ -259,18 +235,5 @@
     <div class="footer">
         <p>&copy; 2026 وجبتي - نظام طلب الوجبات للمستشفى</p>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                if (link.getAttribute('href') === currentPage) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-        });
-    </script>
 </body>
 </html>
