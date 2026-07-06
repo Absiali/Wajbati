@@ -27,11 +27,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 btn.className = "option-btn";
 
                 btn.onclick = () => {
-                    alert("تم اختيار: " + option);
+
+                    let patientName = document.getElementById("patient-name").value.trim();
+                    let roomNumber = document.getElementById("room-number").value.trim();
+
+                    if (patientName === "" || roomNumber === "") {
+                        alert("⚠️ الرجاء إدخال اسم المريض ورقم الغرفة قبل اختيار الوجبة");
+                        return;
+                    }
 
                     let orders = JSON.parse(localStorage.getItem("orders")) || [];
-                    orders.push({ meal: meal, option: option });
+
+                    orders.push({
+                        meal: meal,
+                        option: option,
+                        patient: patientName,
+                        room: roomNumber
+                    });
+
                     localStorage.setItem("orders", JSON.stringify(orders));
+
+                    alert("✔️ تم تسجيل الطلب بنجاح");
                 };
 
                 optionsList.appendChild(btn);
