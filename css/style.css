@@ -1,0 +1,45 @@
+body {
+    font-family: 'Tahoma';
+    margin: 0;
+    padding: 0;
+    background: #f7fbff;
+}
+
+.welcome-screen {
+    text-align: center;
+    padding-top: 80px;
+    background: linear-gradient(#cce6ff, #e6fff2);
+}
+
+.system-title {
+    font-size: 48px;
+    color: #0066cc;
+}
+
+.lang-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    margin: 10px;
+    background: #0066cc;
+    color: white;
+    border-radius: 50px;
+    text-decoration: none;
+}
+
+.meal-card {
+    background: white;
+    padding: 20px;
+    margin: 15px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 10px #ddd;
+}
+
+.order-btn {
+    background: #0066cc;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+}
