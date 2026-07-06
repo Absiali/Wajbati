@@ -2,38 +2,412 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>اختيار الوجبات</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وجبتي - طلب الوجبات</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .page-title {
+            color: white;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .meal-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .meal-section h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .meals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .meal-card {
+            background: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .meal-card:hover {
+            border-color: #667eea;
+            background: #e8eaf6;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .meal-card.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .meal-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .meal-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .order-summary {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 25px;
+        }
+
+        .order-summary h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .order-item {
+            background: #f5f5f5;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-item strong {
+            color: #667eea;
+        }
+
+        .remove-btn {
+            background: #b71c1c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .remove-btn:hover {
+            background: #8b0000;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            padding: 15px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .confirm-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .confirm-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .meals-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <nav class="navbar">
+        <span class="navbar-brand">🏥 وجبتي</span>
+        <ul class="nav-links">
+            <li><a href="index.html">🏠 الرئيسية</a></li>
+            <li><a href="patient.html" class="active">🏃 المريض</a></li>
+            <li><a href="admin.html">👨‍⚕️ الإدارة</a></li>
+        </ul>
+    </nav>
 
-    <!-- بيانات المريض -->
-    <div class="box">
-        <h2>🧑‍⚕️ بيانات المريض</h2>
+    <div class="container">
+        <h1 class="page-title">🍽️ اختر وجبتك</h1>
 
-        <input type="text" id="patient-name" placeholder="اسم المريض">
-        <input type="number" id="room-number" placeholder="رقم الغرفة">
-    </div>
+        <div class="meal-section">
+            <h2>🌅 الفطور</h2>
+            <div class="meals-grid" id="breakfastGrid"></div>
+        </div>
 
-    <!-- اختيار الوجبة -->
-    <div class="box">
-        <h2>🍽️ اختر الوجبة</h2>
+        <div class="meal-section">
+            <h2>🍽️ الغداء</h2>
+            <div class="meals-grid" id="lunchGrid"></div>
+        </div>
 
-        <div style="text-align:center;">
-            <img src="../img/breakfast.png" class="meal-icon" alt="فطور">
-            <img src="../img/lunch.png" class="meal-icon" alt="غداء">
-            <img src="../img/dinner.png" class="meal-icon" alt="عشاء">
+        <div class="meal-section">
+            <h2>🌙 العشاء</h2>
+            <div class="meals-grid" id="dinnerGrid"></div>
+        </div>
+
+        <div class="order-summary">
+            <h3>📋 ملخص طلبك</h3>
+            <div id="orderList"></div>
+            <button class="confirm-btn" onclick="confirmOrder()" id="confirmBtn">✅ تأكيد الطلب</button>
         </div>
     </div>
 
-    <!-- عرض الأصناف -->
-    <div id="meal-options" class="meal-options" style="display:none;">
-        <h3 id="meal-title"></h3>
-        <div id="options-list"></div>
-    </div>
+    <script>
+        const STORAGE_KEY = 'wajbati_meals';
+        const ORDERS_KEY = 'wajbati_orders';
+        let selectedMeals = {};
 
-    <script src="../js/app.js"></script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMeals();
+            loadSelectedMeals();
+            updateOrderSummary();
+        });
 
+        function getMealsFromStorage() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : {
+                breakfast: ['بيض', 'فول', 'عصير', 'ماء'],
+                lunch: ['دجاج', 'أرز', 'سلطة'],
+                dinner: ['ساندويتش', 'شوربة', 'زبادي']
+            };
+        }
+
+        function loadMeals() {
+            const meals = getMealsFromStorage();
+            renderMeals('breakfast', meals.breakfast, '🌅');
+            renderMeals('lunch', meals.lunch, '🍽️');
+            renderMeals('dinner', meals.dinner, '🌙');
+        }
+
+        function renderMeals(type, meals, icon) {
+            const gridId = type + 'Grid';
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = '';
+
+            meals.forEach(meal => {
+                const card = document.createElement('div');
+                card.className = 'meal-card';
+                if (selectedMeals[type] === meal) {
+                    card.classList.add('selected');
+                }
+                
+                card.innerHTML = `
+                    <div class="meal-icon">${icon}</div>
+                    <h3>${escapeHtml(meal)}</h3>
+                `;
+                
+                card.onclick = () => selectMeal(type, meal);
+                grid.appendChild(card);
+            });
+        }
+
+        function selectMeal(type, meal) {
+            if (selectedMeals[type] === meal) {
+                delete selectedMeals[type];
+            } else {
+                selectedMeals[type] = meal;
+            }
+            
+            saveSelectedMeals();
+            loadMeals();
+            updateOrderSummary();
+        }
+
+        function saveSelectedMeals() {
+            localStorage.setItem('wajbati_selected', JSON.stringify(selectedMeals));
+        }
+
+        function loadSelectedMeals() {
+            const data = localStorage.getItem('wajbati_selected');
+            selectedMeals = data ? JSON.parse(data) : {};
+        }
+
+        function updateOrderSummary() {
+            const orderList = document.getElementById('orderList');
+            
+            if (Object.keys(selectedMeals).length === 0) {
+                orderList.innerHTML = '<div class="empty-message">لم تختر أي وجبات</div>';
+                document.getElementById('confirmBtn').disabled = true;
+                return;
+            }
+
+            let html = '';
+            const mealTypes = {
+                'breakfast': '🌅 الفطور',
+                'lunch': '🍽️ الغداء',
+                'dinner': '🌙 العشاء'
+            };
+
+            Object.entries(selectedMeals).forEach(([type, meal]) => {
+                html += `
+                    <div class="order-item">
+                        <strong>${mealTypes[type]}:</strong>
+                        <span>${escapeHtml(meal)}</span>
+                        <button class="remove-btn" onclick="removeMeal('${type}')">حذف</button>
+                    </div>
+                `;
+            });
+
+            orderList.innerHTML = html;
+            document.getElementById('confirmBtn').disabled = false;
+        }
+
+        function removeMeal(type) {
+            delete selectedMeals[type];
+            saveSelectedMeals();
+            loadMeals();
+            updateOrderSummary();
+        }
+
+        function confirmOrder() {
+            if (Object.keys(selectedMeals).length === 0) {
+                showNotification('اختر وجبة واحدة على الأقل!', '#ff9800');
+                return;
+            }
+
+            const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
+            const newOrder = {
+                id: Date.now(),
+                timestamp: new Date().toLocaleString('ar-SA'),
+                meals: selectedMeals
+            };
+
+            orders.push(newOrder);
+            localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+            
+            selectedMeals = {};
+            saveSelectedMeals();
+            updateOrderSummary();
+            loadMeals();
+            
+            showNotification('✅ تم تأكيد طلبك بنجاح!', '#4caf50');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showNotification(message, color) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            notification.style.backgroundColor = color;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideIn 0.3s reverse';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+    </script>
 </body>
 </html>

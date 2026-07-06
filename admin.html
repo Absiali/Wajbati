@@ -1,45 +1,595 @@
-<button onclick="logout()" class="option-btn" style="background:#b71c1c;">
-    🚪 تسجيل خروج
-</button>
 <!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>وجبتي - صفحة الإدارة</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/admin.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وجبتي - لوحة التحكم</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .logout-btn {
+            background: #b71c1c;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            color: white;
+        }
+
+        .logout-btn:hover {
+            background: #8b0000;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .page-title {
+            color: white;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .section h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .count {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .meal-list {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+
+        .meal-list li {
+            background: #f5f5f5;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #667eea;
+        }
+
+        .meal-text {
+            flex: 1;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: #ffa726;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: #ff7043;
+        }
+
+        .delete-btn {
+            background: #b71c1c;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #8b0000;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .add-btn {
+            padding: 12px 25px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            background: #45a049;
+        }
+
+        .footer-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn, .stats-btn, .orders-btn {
+            padding: 12px 30px;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn {
+            background: #2196F3;
+        }
+
+        .export-btn:hover {
+            background: #1976D2;
+        }
+
+        .stats-btn {
+            background: #ff9800;
+        }
+
+        .stats-btn:hover {
+            background: #f57c00;
+        }
+
+        .orders-btn {
+            background: #9c27b0;
+        }
+
+        .orders-btn:hover {
+            background: #7b1fa2;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: left;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .input-group {
+                flex-direction: column;
+            }
+
+            .add-btn {
+                width: 100%;
+            }
+
+            .footer-buttons {
+                flex-direction: column;
+            }
+
+            .export-btn, .stats-btn, .orders-btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
-<body class="admin-page">
+<body>
+    <nav class="navbar">
+        <span class="navbar-brand">🏥 وجبتي - لوحة التحكم</span>
+        <ul class="nav-links">
+            <li><a href="index.html">🏠 الرئيسية</a></li>
+            <li><a href="patient.html">🏃 المريض</a></li>
+            <li><a href="admin.html" class="active">👨‍⚕️ الإدارة</a></li>
+        </ul>
+        <button onclick="logout()" class="logout-btn">🚪 تسجيل خروج</button>
+    </nav>
 
-    <h2 class="page-title">إدارة خيارات الوجبات</h2>
+    <div class="container">
+        <h1 class="page-title">📋 إدارة الوجبات</h1>
 
-    <!-- قسم الفطور -->
-    <div class="admin-section">
-        <h3>خيارات الفطور</h3>
-        <ul id="breakfast-list" class="admin-list"></ul>
+        <div class="section">
+            <h3>
+                <span>🌅 خيارات الفطور</span>
+                <span class="count" id="breakfast-count">(0)</span>
+            </h3>
+            <ul id="breakfast-list" class="meal-list"></ul>
+            <div class="input-group">
+                <input type="text" id="breakfast-input" placeholder="أضف خيار فطور جديد..." onkeypress="handleKeyPress(event, 'فطور')">
+                <button onclick="addOption('فطور')" class="add-btn">➕ إضافة</button>
+            </div>
+        </div>
 
-        <input type="text" id="breakfast-input" placeholder="أضف خيار جديد">
-        <button onclick="addOption('فطور')">إضافة</button>
+        <div class="section">
+            <h3>
+                <span>🍽️ خيارات الغداء</span>
+                <span class="count" id="lunch-count">(0)</span>
+            </h3>
+            <ul id="lunch-list" class="meal-list"></ul>
+            <div class="input-group">
+                <input type="text" id="lunch-input" placeholder="أضف خيار غداء جديد..." onkeypress="handleKeyPress(event, 'غداء')">
+                <button onclick="addOption('غداء')" class="add-btn">➕ إضافة</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>
+                <span>🌙 خيارات العشاء</span>
+                <span class="count" id="dinner-count">(0)</span>
+            </h3>
+            <ul id="dinner-list" class="meal-list"></ul>
+            <div class="input-group">
+                <input type="text" id="dinner-input" placeholder="أضف خيار عشاء جديد..." onkeypress="handleKeyPress(event, 'عشاء')">
+                <button onclick="addOption('عشاء')" class="add-btn">➕ إضافة</button>
+            </div>
+        </div>
+
+        <div class="footer-buttons">
+            <button onclick="showStats()" class="stats-btn">📊 الإحصائيات</button>
+            <button onclick="showOrders()" class="orders-btn">📦 الطلبات المؤكدة</button>
+            <button onclick="exportData()" class="export-btn">📥 تصدير البيانات</button>
+        </div>
     </div>
 
-    <!-- قسم الغداء -->
-    <div class="admin-section">
-        <h3>خيارات الغداء</h3>
-        <ul id="lunch-list" class="admin-list"></ul>
-
-        <input type="text" id="lunch-input" placeholder="أضف خيار جديد">
-        <button onclick="addOption('غداء')">إضافة</button>
+    <div id="statsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('statsModal')">&times;</span>
+            <h2>📊 إحصائيات الوجبات</h2>
+            <div id="statsContent"></div>
+        </div>
     </div>
 
-    <!-- قسم العشاء -->
-    <div class="admin-section">
-        <h3>خيارات العشاء</h3>
-        <ul id="dinner-list" class="admin-list"></ul>
-
-        <input type="text" id="dinner-input" placeholder="أضف خيار جديد">
-        <button onclick="addOption('عشاء')">إضافة</button>
+    <div id="ordersModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('ordersModal')">&times;</span>
+            <h2>📦 الطلبات المؤكدة</h2>
+            <div id="ordersContent"></div>
+        </div>
     </div>
 
+    <script>
+        const STORAGE_KEY = 'wajbati_meals';
+        const ORDERS_KEY = 'wajbati_orders';
+        const mealTypes = {
+            'فطور': 'breakfast',
+            'غداء': 'lunch',
+            'عشاء': 'dinner'
+        };
+
+        document.addEventListener('DOMContentLoaded', loadAllMeals);
+
+        function loadAllMeals() {
+            const meals = getMealsFromStorage();
+            updateMealList('فطور', meals.breakfast);
+            updateMealList('غداء', meals.lunch);
+            updateMealList('عشاء', meals.dinner);
+        }
+
+        function getMealsFromStorage() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : {
+                breakfast: ['بيض', 'فول', 'عصير', 'ماء'],
+                lunch: ['دجاج', 'أرز', 'سلطة'],
+                dinner: ['ساندويتش', 'شوربة', 'زبادي']
+            };
+        }
+
+        function saveMealsToStorage(meals) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(meals));
+        }
+
+        function updateMealList(mealType, mealArray) {
+            const listId = mealTypes[mealType] + '-list';
+            const countId = mealTypes[mealType] + '-count';
+            const listElement = document.getElementById(listId);
+            
+            listElement.innerHTML = '';
+            mealArray.forEach((meal, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="meal-text">${escapeHtml(meal)}</span>
+                    <div class="actions">
+                        <button class="btn edit-btn" onclick="editMeal('${mealType}', ${index})">✏️ تعديل</button>
+                        <button class="btn delete-btn" onclick="deleteMeal('${mealType}', ${index})">🗑️ حذف</button>
+                    </div>
+                `;
+                listElement.appendChild(li);
+            });
+            
+            document.getElementById(countId).textContent = `(${mealArray.length})`;
+        }
+
+        function addOption(mealType) {
+            const inputId = mealTypes[mealType] + '-input';
+            const inputElement = document.getElementById(inputId);
+            const mealName = inputElement.value.trim();
+            
+            if (!mealName) {
+                showNotification('⚠️ الرجاء إدخال اسم الوجبة', '#ff9800');
+                return;
+            }
+            
+            const meals = getMealsFromStorage();
+            const mealTypeKey = mealTypes[mealType];
+            
+            if (meals[mealTypeKey].includes(mealName)) {
+                showNotification('❌ هذه الوجبة موجودة بالفعل', '#b71c1c');
+                return;
+            }
+            
+            meals[mealTypeKey].push(mealName);
+            saveMealsToStorage(meals);
+            updateMealList(mealType, meals[mealTypeKey]);
+            inputElement.value = '';
+            showNotification(`✅ تمت إضافة "${mealName}" بنجاح`, '#4caf50');
+        }
+
+        function deleteMeal(mealType, index) {
+            if (!confirm('هل أنت متأكد من حذف هذه الوجبة؟')) return;
+            
+            const meals = getMealsFromStorage();
+            const mealTypeKey = mealTypes[mealType];
+            const deletedMeal = meals[mealTypeKey][index];
+            
+            meals[mealTypeKey].splice(index, 1);
+            saveMealsToStorage(meals);
+            updateMealList(mealType, meals[mealTypeKey]);
+            showNotification(`🗑️ تم حذف "${deletedMeal}" بنجاح`, '#4caf50');
+        }
+
+        function editMeal(mealType, index) {
+            const meals = getMealsFromStorage();
+            const mealTypeKey = mealTypes[mealType];
+            const oldName = meals[mealTypeKey][index];
+            
+            const newName = prompt(`الاسم الحالي: ${oldName}\n\nالاسم الجديد:`, oldName);
+            if (!newName || newName.trim() === '') return;
+            if (newName === oldName) return;
+            
+            if (meals[mealTypeKey].includes(newName)) {
+                showNotification('❌ هذا الاسم موجود بالفعل', '#b71c1c');
+                return;
+            }
+            
+            meals[mealTypeKey][index] = newName;
+            saveMealsToStorage(meals);
+            updateMealList(mealType, meals[mealTypeKey]);
+            showNotification(`✏️ تم التحديث بنجاح`, '#4caf50');
+        }
+
+        function handleKeyPress(event, mealType) {
+            if (event.key === 'Enter') addOption(mealType);
+        }
+
+        function showStats() {
+            const meals = getMealsFromStorage();
+            const total = meals.breakfast.length + meals.lunch.length + meals.dinner.length;
+            document.getElementById('statsContent').innerHTML = `
+                <div style="text-align: right; direction: rtl; font-size: 16px;">
+                    <p><strong>🌅 الفطور:</strong> ${meals.breakfast.length} وجبة</p>
+                    <p><strong>🍽️ الغداء:</strong> ${meals.lunch.length} وجبة</p>
+                    <p><strong>🌙 العشاء:</strong> ${meals.dinner.length} وجبة</p>
+                    <hr style="margin: 15px 0;">
+                    <h3>المجموع: <span style="color: #667eea;">${total}</span> وجبة</h3>
+                </div>
+            `;
+            document.getElementById('statsModal').style.display = 'block';
+        }
+
+        function showOrders() {
+            const orders = JSON.parse(localStorage.getItem(ORDERS_KEY) || '[]');
+            
+            if (orders.length === 0) {
+                document.getElementById('ordersContent').innerHTML = '<p style="text-align: center; color: #999;">لا توجد طلبات حتى الآن</p>';
+            } else {
+                let html = '';
+                orders.forEach((order, index) => {
+                    html += `
+                        <div style="background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 8px; text-align: right; direction: rtl;">
+                            <strong>الطلب #${index + 1}</strong> - ${order.timestamp}
+                            <hr style="margin: 10px 0;">
+                    `;
+                    Object.entries(order.meals).forEach(([type, meal]) => {
+                        const mealTypeNames = {
+                            'breakfast': '🌅 الفطور',
+                            'lunch': '🍽️ الغداء',
+                            'dinner': '🌙 العشاء'
+                        };
+                        html += `<p>${mealTypeNames[type]}: <strong>${escapeHtml(meal)}</strong></p>`;
+                    });
+                    html += '</div>';
+                });
+                document.getElementById('ordersContent').innerHTML = html;
+            }
+            
+            document.getElementById('ordersModal').style.display = 'block';
+        }
+
+        function exportData() {
+            const meals = getMealsFromStorage();
+            const dataStr = JSON.stringify(meals, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `wajbati-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            showNotification('📥 تم التصدير بنجاح', '#2196F3');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showNotification(message, color) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            notification.style.backgroundColor = color;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        function logout() {
+            if (confirm('هل تريد تسجيل الخروج؟')) {
+                alert('تم تسجيل الخروج بنجاح');
+                window.location.href = 'index.html';
+            }
+        }
+
+        window.onclick = function(event) {
+            const statsModal = document.getElementById('statsModal');
+            const ordersModal = document.getElementById('ordersModal');
+            if (event.target === statsModal) statsModal.style.display = 'none';
+            if (event.target === ordersModal) ordersModal.style.display = 'none';
+        }
+    </script>
 </body>
 </html>
