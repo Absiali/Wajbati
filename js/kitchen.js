@@ -46,3 +46,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+// مراقبة الطلبات الجديدة
+let lastCount = 0;
+
+setInterval(() => {
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    if (orders.length > lastCount) {
+        alert("🔔 تنبيه: وصل طلب جديد للمطبخ!");
+    }
+
+    lastCount = orders.length;
+}, 1000);
