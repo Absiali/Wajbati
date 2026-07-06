@@ -1,11 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // تحميل خيارات الوجبات من صفحة الإدارة
-    let mealOptions = JSON.parse(localStorage.getItem("mealOptions")) || {
-        "فطور": ["بيض", "فول", "مشروب", "ماء", "تفاحة", "برتقالة"],
-        "غداء": ["دجاج مشوي", "أرز", "سلطة", "ماء", "عصير"],
-        "عشاء": ["ساندويتش", "شوربة", "زبادي", "ماء", "فواكه"]
-    };
+    let mealOptions = JSON.parse(localStorage.getItem("mealOptions"));
+    let hiddenItems = JSON.parse(localStorage.getItem("hiddenItems"));
 
     const icons = document.querySelectorAll(".meal-icon");
     const mealOptionsDiv = document.getElementById("meal-options");
@@ -14,17 +10,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     icons.forEach(icon => {
         icon.addEventListener("click", () => {
-            const meal = icon.alt; // فطور - غداء - عشاء
+            const meal = icon.alt;
 
-            // إظهار قسم الخيارات
             mealOptionsDiv.style.display = "block";
-
-            // تغيير العنوان
             mealTitle.textContent = "خيارات " + meal;
 
-            // تعبئة الخيارات
             optionsList.innerHTML = "";
+
             mealOptions[meal].forEach(option => {
+
+                // إخفاء الأصناف المخفية
+                if (hiddenItems[meal].includes(option)) return;
+
                 const btn = document.createElement("button");
                 btn.textContent = option;
                 btn.className = "option-btn";
@@ -32,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 btn.onclick = () => {
                     alert("تم اختيار: " + option);
 
-                    // حفظ الطلب في قائمة الطلبات
                     let orders = JSON.parse(localStorage.getItem("orders")) || [];
                     orders.push({ meal: meal, option: option });
                     localStorage.setItem("orders", JSON.stringify(orders));
