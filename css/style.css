@@ -215,3 +215,47 @@ body {
 .delete-btn:hover {
     background: #c62828;
 }
+.edit-btn, .delete-btn, .hide-btn, .show-btn {
+    margin-left: 8px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* تعديل */
+.edit-btn {
+    background: #0277bd;
+    color: #fff;
+}
+.edit-btn:hover {
+    background: #01579b;
+}
+
+/* حذف */
+.delete-btn {
+    background: #e53935;
+    color: #fff;
+}
+.delete-btn:hover {
+    background: #c62828;
+}
+
+/* إخفاء */
+.hide-btn {
+    background: #757575;
+    color: #fff;
+}
+.hide-btn:hover {
+    background: #616161;
+}
+
+/* إظهار */
+.show-btn {
+    background: #4CAF50;
+    color: #fff;
+}
+.show-btn:hover {
+    background: #43A047;
+}
