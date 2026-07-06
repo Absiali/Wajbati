@@ -2,38 +2,275 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>نظام وجبتي</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وجبتي - الصفحة الرئيسية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-links a.active {
+            background: white;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .hero {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: #764ba2;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #764ba2;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .nav-links {
+                gap: 10px;
+                font-size: 14px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">🏥 وجبتي</a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">🏠 الرئيسية</a></li>
+            <li><a href="patient.html">🏃 المريض</a></li>
+            <li><a href="admin.html">👨‍⚕️ الإدارة</a></li>
+        </ul>
+    </nav>
 
-    <div class="box" style="text-align:center;">
-        <h2>🍽️ نظام وجبتي</h2>
-        <p>اختر القسم الذي تريد الدخول إليه</p>
+    <div class="container">
+        <div class="hero">
+            <h1>🏥 مرحباً بك في وجبتي</h1>
+            <p>نظام متقدم لطلب الوجبات في المستشفى</p>
+            <div class="btn-group">
+                <a href="patient.html" class="btn btn-primary">طلب وجبة الآن 🍽️</a>
+                <a href="admin.html" class="btn btn-secondary">لوحة التحكم 👨‍⚕️</a>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🍽️</div>
+                <h3>وجبات متنوعة</h3>
+                <p>اختر من قائمة واسعة من الوجبات الصحية اللذيذة</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>سهل الاستخدام</h3>
+                <p>واجهة بسيطة وسهلة على جميع الأجهزة</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>سريع وموثوق</h3>
+                <p>احصل على طلبك بسرعة وبدقة</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3>آمن وموثوق</h3>
+                <p>بيانات آمنة وحفظ محلي للخصوصية</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3>إحصائيات شاملة</h3>
+                <p>تتبع جميع الطلبات والإحصائيات</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>إدارة احترافية</h3>
+                <p>تحكم كامل على القائمة والطلبات</p>
+            </div>
+        </div>
     </div>
 
-    <div class="box" style="text-align:center;">
-
-        <button onclick="location.href='pages/admin.html'" 
-                class="option-btn" 
-                style="width:80%; margin-bottom:10px;">
-            🔐 دخول المدير
-        </button>
-
-        <button onclick="location.href='pages/kitchen.html'" 
-                class="option-btn" 
-                style="width:80%; margin-bottom:10px;">
-            👨‍🍳 دخول المطبخ
-        </button>
-
-        <button onclick="location.href='pages/patient.html'" 
-                class="option-btn" 
-                style="width:80%;">
-            🧑‍⚕️ دخول المريض
-        </button>
-
+    <div class="footer">
+        <p>&copy; 2026 وجبتي - نظام طلب الوجبات للمستشفى</p>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
