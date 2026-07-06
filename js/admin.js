@@ -1,3 +1,4 @@
+// القائمة الأصلية
 let mealOptions = JSON.parse(localStorage.getItem("mealOptions")) || {
     "فطور": ["بيض", "فول", "عصير", "ماء"],
     "غداء": ["دجاج", "أرز", "سلطة"],
@@ -50,7 +51,7 @@ function renderList(meal, elementId) {
             renderLists();
         };
 
-        // زر إخفاء / إظهار
+        // زر إظهار / إخفاء
         const hideBtn = document.createElement("button");
 
         if (hiddenItems[meal].includes(item)) {
