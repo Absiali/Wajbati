@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وجبتي - نظام طلب الوجبات</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            direction: rtl;
+            padding: 20px;
+        }
+
+        .navbar {
+            background: white;
+            color: #333;
+            padding: 15px 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar-title {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logout-btn {
+            background: #b71c1c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #8b0000;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            text-align: center;
+            color: white;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .section h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .count {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .meal-list {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+
+        .meal-list li {
+            background: #f5f5f5;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #667eea;
+        }
+
+        .meal-text {
+            flex: 1;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: #ffa726;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: #ff7043;
+        }
+
+        .delete-btn {
+            background: #b71c1c;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #8b0000;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .add-btn {
+            padding: 12px 25px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            background: #45a049;
+        }
+
+        .footer {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .export-btn, .stats-btn {
+            padding: 12px 30px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn {
+            background: #2196F3;
+        }
+
+        .export-btn:hover {
+            background: #1976D2;
+        }
+
+        .stats-btn {
+            background: #ff9800;
+        }
+
+        .stats-btn:hover {
+            background: #f57c00;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .close {
+            color: #aaa;
+            float: left;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: white;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .input-group {
+                flex-direction: column;
+            }
+
+            .add-btn {
+                width: 100%;
+            }
+
+            .footer {
+                flex-direction: column;
+            }
+
+            .export-btn, .stats-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <h1 class="navbar-title">🏥 وجبتي - لوحة التحكم</h1>
+        <button onclick="logout()" class="logout-btn">🚪 تسجيل خروج</button>
+    </nav>
+
+    <div class="container">
+        <h2 class="page-title">إدارة خيارات الوجبات</h2>
+
+        <!-- قسم الفطور -->
+        <div class="section">
+            <h3>
+                <span>🌅 خيارات الفطور</span>
+                <span class="count" id="breakfast-count">(0)</span>
+            </h3>
+            <ul id="breakfast-list" class="meal-list"></ul>
+            <div class="input-group">
+                <input type="text" id="breakfast-input" placeholder="أضف خيار فطور جديد..." onkeypress="handleKeyPress(event, 'فطور')">
+                <button onclick="addOption('فطور')" class="add-btn">➕ إضافة</button>
+            </div>
+        </div>
+
+        <!-- قسم الغداء -->
+        <div class="section">
+            <h3>
+                <span>🍽️ خيارات الغداء</span>
+                <span class="count" id="lunch-count">(0)</span>
+            </h3>
+            <ul id="lunch-list" class="meal-list"></ul>
+            <div class="input-group">
+                <input type="text" id="lunch-input" placeholder="أضف خيار غداء جديد..." onkeypress="handleKeyPress(event, 'غداء')">
+                <button onclick="addOption('غداء')" class="add-btn">➕ إضافة</button>
+            </div>
+        </div>
+
+        <!-- قسم العشاء -->
+        <div class="section">
+            <h3>
+                <span>🌙 خيارات العشاء</span>
+                <span class="count" id="dinner-count">(0)</span>
+            </h3>
+            <ul id="dinner-list" class="meal-list"></ul>
+            <div class="input-group">
+                <input type="text" id="dinner-input" placeholder="أضف خيار عشاء جديد..." onkeypress="handleKeyPress(event, 'عشاء')">
+                <button onclick="addOption('عشاء')" class="add-btn">➕ إضافة</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <button onclick="exportData()" class="export-btn">📥 تصدير البيانات</button>
+            <button onclick="showStats()" class="stats-btn">📊 عرض الإحصائيات</button>
+        </div>
+    </div>
+
+    <!-- Modal للإحصائيات -->
+    <div id="statsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeStats()">&times;</span>
+            <h2>📊 إحصائيات الوجبات</h2>
+            <div id="statsContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'wajbati_meals';
+        const mealTypes = {
+            'فطور': 'breakfast',
+            'غداء': 'lunch',
+            'عشاء': 'dinner'
+        };
+
+        document.addEventListener('DOMContentLoaded', loadAllMeals);
+
+        function loadAllMeals() {
+            const meals = getMealsFromStorage();
+            updateMealList('فطور', meals.breakfast);
+            updateMealList('غداء', meals.lunch);
+            updateMealList('عشاء', meals.dinner);
+        }
+
+        function getMealsFromStorage() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : {
+                breakfast: ['بيض', 'فول', 'عصير', 'ماء'],
+                lunch: ['دجاج', 'أرز', 'سلطة'],
+                dinner: ['ساندويتش', 'شوربة', 'زبادي']
+            };
+        }
+
+        function saveMealsToStorage(meals) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(meals));
+        }
+
+        function updateMealList(mealType, mealArray) {
+            const listId = mealTypes[mealType] + '-list';
+            const countId = mealTypes[mealType] + '-count';
+            const listElement = document.getElementById(listId);
+            
+            listElement.innerHTML = '';
+            mealArray.forEach((meal, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="meal-text">${escapeHtml(meal)}</span>
+                    <div class="actions">
+                        <button class="edit-btn" onclick="editMeal('${mealType}', ${index})">✏️ تعديل</button>
+                        <button class="delete-btn" onclick="deleteMeal('${mealType}', ${index})">🗑️ حذف</button>
+                    </div>
+                `;
+                listElement.appendChild(li);
+            });
+            
+            document.getElementById(countId).textContent = `(${mealArray.length})`;
+        }
+
+        function addOption(mealType) {
+            const inputId = mealTypes[mealType] + '-input';
+            const inputElement = document.getElementById(inputId);
+            const mealName = inputElement.value.trim();
+            
+            if (!mealName) {
+                showNotification('⚠️ الرجاء إدخال اسم الوجبة', '#ff9800');
+                return;
+            }
+            
+            const meals = getMealsFromStorage();
+            const mealTypeKey = mealTypes[mealType];
+            
+            if (meals[mealTypeKey].includes(mealName)) {
+                showNotification('❌ هذه الوجبة موجودة بالفعل', '#b71c1c');
+                return;
+            }
+            
+            meals[mealTypeKey].push(mealName);
+            saveMealsToStorage(meals);
+            updateMealList(mealType, meals[mealTypeKey]);
+            inputElement.value = '';
+            showNotification(`✅ تمت إضافة "${mealName}" بنجاح`, '#4caf50');
+        }
+
+        function deleteMeal(mealType, index) {
+            if (!confirm('هل أنت متأكد من حذف هذه الوجبة؟')) return;
+            
+            const meals = getMealsFromStorage();
+            const mealTypeKey = mealTypes[mealType];
+            const deletedMeal = meals[mealTypeKey][index];
+            
+            meals[mealTypeKey].splice(index, 1);
+            saveMealsToStorage(meals);
+            updateMealList(mealType, meals[mealTypeKey]);
+            showNotification(`🗑️ تم حذف "${deletedMeal}" بنجاح`, '#4caf50');
+        }
+
+        function editMeal(mealType, index) {
+            const meals = getMealsFromStorage();
+            const mealTypeKey = mealTypes[mealType];
+            const oldName = meals[mealTypeKey][index];
+            
+            const newName = prompt(`الاسم الحالي: ${oldName}\n\nالاسم الجديد:`, oldName);
+            
+            if (!newName || newName.trim() === '') return;
+            if (newName === oldName) return;
+            
+            if (meals[mealTypeKey].includes(newName)) {
+                showNotification('❌ هذا الاسم موجود بالفعل', '#b71c1c');
+                return;
+            }
+            
+            meals[mealTypeKey][index] = newName;
+            saveMealsToStorage(meals);
+            updateMealList(mealType, meals[mealTypeKey]);
+            showNotification(`✏️ تم التحديث بنجاح`, '#4caf50');
+        }
+
+        function handleKeyPress(event, mealType) {
+            if (event.key === 'Enter') addOption(mealType);
+        }
+
+        function exportData() {
+            const meals = getMealsFromStorage();
+            const dataStr = JSON.stringify(meals, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `wajbati-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            showNotification('📥 تم التصدير بنجاح', '#2196F3');
+        }
+
+        function showStats() {
+            const meals = getMealsFromStorage();
+            const total = meals.breakfast.length + meals.lunch.length + meals.dinner.length;
+            document.getElementById('statsContent').innerHTML = `
+                <div style="text-align: right; direction: rtl; font-size: 16px;">
+                    <p><strong>🌅 الفطور:</strong> ${meals.breakfast.length} وجبة</p>
+                    <p><strong>🍽️ الغداء:</strong> ${meals.lunch.length} وجبة</p>
+                    <p><strong>🌙 العشاء:</strong> ${meals.dinner.length} وجبة</p>
+                    <hr>
+                    <h3>المجموع: <span style="color: #667eea;">${total}</span> وجبة</h3>
+                </div>
+            `;
+            document.getElementById('statsModal').style.display = 'block';
+        }
+
+        function closeStats() {
+            document.getElementById('statsModal').style.display = 'none';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showNotification(message, color) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            notification.style.backgroundColor = color;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        function logout() {
+            if (confirm('هل تريد تسجيل الخروج؟')) {
+                alert('تم تسجيل الخروج بنجاح');
+                window.location.href = 'index.html';
+            }
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('statsModal');
+            if (event.target === modal) modal.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
